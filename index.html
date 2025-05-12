@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageSlider</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!--<div class="slider">-->
+<!--    <div class="slider-wrapper">-->
+<!--        <button class="arrow arrow-left">-->
+<!--            <img src="images/left_arrow.svg" alt="left_arrow">-->
+<!--        </button>-->
+
+
+<!--        <div class="slides">-->
+<!--            <div class="slides-wrapper">-->
+<!--                <div class="slides-images">-->
+<!--                    <img src="images/1.jfif" alt="img1">-->
+<!--                </div>-->
+<!--                <div class="slides-images">-->
+<!--                    <img src="images/2.jfif" alt="img2">-->
+<!--                </div>-->
+<!--                <div class="slides-images">-->
+<!--                    <img src="images/3.jfif" alt="img3">-->
+<!--                </div>-->
+<!--                <div class="slides-images">-->
+<!--                    <img src="images/big.jpg" alt="img3">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <button class="arrow arrow-right">-->
+<!--            <img src="images/right_arrow.svg" alt="right_arrow">-->
+<!--        </button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<script src="ImageSlider.js"></script>
+<script>
+
+    let slider = new ImageSlider(document.body);
+
+    let images = [
+        "images/1.jfif",
+        "images/2.jfif",
+        "images/3.jfif",
+        "images/4.jfif",
+        "images/5.jfif",
+        "images/6.jfif",
+        "images/1694355515179744073.jpg",
+        "images/big.jpg",
+    ];
+
+    slider.loadImages(images);
+    slider.distanceImages();
+</script>
+</body>
+</html>
