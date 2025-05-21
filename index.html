@@ -40,7 +40,7 @@
 <script src="ImageSlider.js"></script>
 <script>
 
-    let slider = new ImageSlider(document.body);
+    let slider = new ImageSlider(document.body,3);
 
     let images = [
         "images/1.jfif",
@@ -54,7 +54,7 @@
     ];
 
     slider.loadImages(images);
-    slider.distanceImages();
+    slider.getImagesDistance();
 </script>
 </body>
 </html>

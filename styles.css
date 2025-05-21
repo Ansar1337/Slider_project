@@ -33,6 +33,7 @@ body {
     transform: translateX(0px);
     height: 100%;
     flex-shrink: 0;
+    transition: transform 0.15s ease;
 }
 
 .slides {
