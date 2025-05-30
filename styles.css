@@ -64,6 +64,10 @@ body {
     height: 100%;
 }
 
+.slides-images.main-image {
+    border: 2px solid red;
+}
+
 .arrow {
     border: none;
     cursor: pointer;

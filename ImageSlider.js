@@ -1,5 +1,30 @@
 "use strict";
 
+// mainImageId = Возможность указать номер "основного" изображения среди отображаемых (отсчет с нуля, по умолчанию: 1 — центральное, если указано -1, то главных нет).
+// 1. проверка на валидность значения mainImageId +++
+// 1.1 Задаю main image class картинке посередине  this.slidesWrapper.children[this.mainImageId + this.slideByCount].classList.add("main-image");
+// 1.2 Убираю стиль с картинки (this.slidesWrapper.children)
+
+// Проходим по элементам массива и убираем класс "main-image"
+// this.slidesWrapper.children.forEach(child => {
+//     child.classList.remove("main-image");
+// });
+
+
+// 1.3 Смещение галерии влево или вправо
+// 1.4 Повторно накладываю стиль main image
+
+
+// *. динамическое отслеживание индекса "картинки" после goForward() И goBack();
+
+// slideByCount = Возможность указать количество изображений, перелистываемых при нажатии на кнопки (по умолчанию: 1);
+
+
+// 1. срабатывает goForward();
+// 2. выполняются стили goForward();
+// 3. срабатывает второй листенер на transitionend, видоизменяется коллекция
+// 4. выделяется main image;
+
 class ImageSlider {
     element;
     slidesImages;
@@ -7,13 +32,15 @@ class ImageSlider {
     slides;
     imagesContainer = [];
     imagesCount;
-    slideByCount;
+    slideByCount = 1;
+    mainImageId;
     slideDirection = null;
 
     constructor(element = document.body, imagesCount = 3, mainImageId = 1, slideByCount = 1) {
         this.element = element;
         this.createSlider();
         this.imagesCount = imagesCount;
+        this.mainImageId = mainImageId;
         this.slideByCount = slideByCount;
     }
 
@@ -49,8 +76,10 @@ class ImageSlider {
 
                 if (this.slideDirection === "forward") {
                     this.slidesWrapper.lastElementChild.after(this.slidesWrapper.firstElementChild);
+                    this.markMainImage();
                 } else if (this.slideDirection === "backward") {
                     this.slidesWrapper.firstElementChild.before(this.slidesWrapper.lastElementChild);
+                    this.markMainImage();
                 }
 
                 this.slidesWrapper.style.transition = "none";
@@ -80,13 +109,22 @@ class ImageSlider {
 
             this.slidesImages.append(images);
 
-            // deprecated array usage
-            // this.imagesContainer.push(this.slidesImages);
-
             this.slidesWrapper.append(this.slidesImages);
         }
+        this.markMainImage();
         this.transformImages();
         this.resizeContainer();
+    }
+
+    markMainImage() {
+        for (let i = 0; i < this.slidesWrapper.children.length; i++) {
+            this.slidesWrapper.children[i].classList.remove("main-image");
+        }
+        if (this.mainImageId >= 0) {
+            this.slidesWrapper.children[this.mainImageId + this.slideByCount].classList.add("main-image");
+        }
+        // this.slidesWrapper.children[this.mainImageId + this.slideByCount].classList.add("main-image");
+        console.log(this.slidesWrapper.children.length);
     }
 
 
