@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>ImageSlider</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -11,6 +10,8 @@
 <script>
 
     let slider = new ImageSlider(document.body, 3, 1, 1);
+    let slider2 = new ImageSlider(document.body, 3, 1, 1);
+    // let slider3 = new ImageSlider(document.body, 3, 1, 1);
 
     let images = [
         "images/1.jfif",
@@ -24,7 +25,9 @@
     ];
 
     slider.loadImages(images);
-    slider.getImagesDistance();
+    slider2.loadImages(images);
+    // slider3.loadImages(images);
+
 </script>
 </body>
 </html>

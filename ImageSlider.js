@@ -32,16 +32,34 @@ class ImageSlider {
     slides;
     imagesContainer = [];
     imagesCount;
-    slideByCount = 1;
+    slideByCount;
     mainImageId;
     slideDirection = null;
+    createSliderChecker = false;
+    cssPromise;
 
     constructor(element = document.body, imagesCount = 3, mainImageId = 1, slideByCount = 1) {
         this.element = element;
-        this.createSlider();
+        this.loadCssFile().then(() => {
+            this.createSlider();
+        });
+        // this.createSlider();
         this.imagesCount = imagesCount;
         this.mainImageId = mainImageId;
         this.slideByCount = slideByCount;
+    }
+
+    loadCssFile() {
+        return new Promise((resolve, reject) => {
+            const cssFile = document.createElement("link");
+            cssFile.rel = "stylesheet";
+            cssFile.type = "text/css";
+            cssFile.href = "styles.css";
+
+            cssFile.onload = () => resolve();
+
+            document.head.append(cssFile);
+        });
     }
 
     createSlider() {
@@ -75,10 +93,14 @@ class ImageSlider {
             if (e.propertyName === "transform") {
 
                 if (this.slideDirection === "forward") {
-                    this.slidesWrapper.lastElementChild.after(this.slidesWrapper.firstElementChild);
+                    for (let i = 0; i < this.slideByCount; i++) {
+                        this.slidesWrapper.lastElementChild.after(this.slidesWrapper.firstElementChild);
+                    }
                     this.markMainImage();
                 } else if (this.slideDirection === "backward") {
-                    this.slidesWrapper.firstElementChild.before(this.slidesWrapper.lastElementChild);
+                    for (let i = 0; i < this.slideByCount; i++) {
+                        this.slidesWrapper.firstElementChild.before(this.slidesWrapper.lastElementChild);
+                    }
                     this.markMainImage();
                 }
 
@@ -96,25 +118,53 @@ class ImageSlider {
         sliderWrapper.append(arrowRight);
         this.slides.append(this.slidesWrapper);
 
+        this.createSliderChecker = true;
+
         return slider;
     }
 
+    /*loadImages(imageArray = []) {
+        const that = this;
+        const intervalId = setInterval(function () {
+            if (that.createSliderChecker === true) {
+                for (let i = 0; i < imageArray.length + (that.slideByCount * 2); i++) {
+                    that.slidesImages = document.createElement("div");
+                    that.slidesImages.classList.add("slides-images");
+
+                    const images = document.createElement("img");
+                    images.src = imageArray[i % imageArray.length];
+
+                    that.slidesImages.append(images);
+
+                    that.slidesWrapper.append(that.slidesImages);
+                }
+                that.markMainImage();
+                that.transformImages();
+                that.resizeContainer();
+                clearInterval(intervalId);
+            }
+        }, 100);
+    }*/
+
     loadImages(imageArray = []) {
-        for (let i = 0; i < imageArray.length + (this.slideByCount * 2); i++) {
-            this.slidesImages = document.createElement("div");
-            this.slidesImages.classList.add("slides-images");
+        const that = this;
+        this.loadCssFile().then(() => {
+            for (let i = 0; i < imageArray.length + (this.slideByCount * 2); i++) {
+                const slideImage = document.createElement("div");
+                slideImage.classList.add("slides-images");
 
-            const images = document.createElement("img");
-            images.src = imageArray[i % imageArray.length];
+                const image = document.createElement("img");
+                image.src = imageArray[i % imageArray.length];
 
-            this.slidesImages.append(images);
-
-            this.slidesWrapper.append(this.slidesImages);
-        }
-        this.markMainImage();
-        this.transformImages();
-        this.resizeContainer();
+                slideImage.append(image);
+                this.slidesWrapper.append(slideImage);
+            }
+            that.markMainImage();
+            that.transformImages();
+            that.resizeContainer();
+        });
     }
+
 
     markMainImage() {
         for (let i = 0; i < this.slidesWrapper.children.length; i++) {
@@ -123,7 +173,6 @@ class ImageSlider {
         if (this.mainImageId >= 0) {
             this.slidesWrapper.children[this.mainImageId + this.slideByCount].classList.add("main-image");
         }
-        // this.slidesWrapper.children[this.mainImageId + this.slideByCount].classList.add("main-image");
         console.log(this.slidesWrapper.children.length);
     }
 
@@ -131,7 +180,7 @@ class ImageSlider {
     transformImages() {
         const imagesDistance = this.getImagesDistance().distanceX;
         for (let i = 0; i < this.slidesWrapper.children.length; i++) {
-            this.slidesWrapper.children[i].style.transform = `translate(${-imagesDistance}px`;
+            this.slidesWrapper.children[i].style.transform = `translate(${-imagesDistance * this.slideByCount}px`;
         }
         console.log(this.slidesWrapper.firstElementChild);
         console.log(this.slidesWrapper.lastElementChild);
@@ -158,14 +207,25 @@ class ImageSlider {
 
     goForward() {
         this.slideDirection = "forward";
-        this.slidesWrapper.style.transition = "transform 0.3s ease";
-        this.slidesWrapper.style.transform = `translateX(-${this.getImagesDistance().distanceX}px)`;
+
+        if (this.slideByCount > 1) {
+            this.slidesWrapper.style.transition = "transform 0.3s ease";
+            this.slidesWrapper.style.transform = `translateX(-${this.getImagesDistance().distanceX * this.slideByCount}px)`;
+        } else {
+            this.slidesWrapper.style.transition = "transform 0.3s ease";
+            this.slidesWrapper.style.transform = `translateX(-${this.getImagesDistance().distanceX}px)`;
+        }
     }
 
     goBack() {
         this.slideDirection = "backward";
-        this.slidesWrapper.style.transition = "transform 0.3s ease";
-        this.slidesWrapper.style.transform = `translateX(${this.getImagesDistance().distanceX}px)`;
+        if (this.slideByCount > 1) {
+            this.slidesWrapper.style.transition = "transform 0.3s ease";
+            this.slidesWrapper.style.transform = `translateX(${this.getImagesDistance().distanceX * this.slideByCount}px)`;
+        } else {
+            this.slidesWrapper.style.transition = "transform 0.3s ease";
+            this.slidesWrapper.style.transform = `translateX(${this.getImagesDistance().distanceX}px)`;
+        }
     }
 }
 
