@@ -86,11 +86,11 @@ body {
 }
 
 .arrow-left {
-    background-image: url("images/left_arrow.svg");
+    background-image: url("../images/left_arrow.svg");
     margin-right: 10px;
 }
 
 .arrow-right {
-    background-image: url("images/right_arrow.svg");
+    background-image: url("../images/right_arrow.svg");
     margin-left: 10px;
 }
