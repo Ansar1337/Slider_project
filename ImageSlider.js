@@ -27,26 +27,21 @@
 
 class ImageSlider {
     element;
-    slidesImages;
     slidesWrapper;
     slides;
-    imagesContainer = [];
     imagesCount;
     slideByCount;
     mainImageId;
     slideDirection = null;
     createSliderChecker = false;
-    cssPromise;
+    cssPromise = this.loadCssFile();
 
     constructor(element = document.body, imagesCount = 3, mainImageId = 1, slideByCount = 1) {
         this.element = element;
-        this.loadCssFile().then(() => {
-            this.createSlider();
-        });
-        // this.createSlider();
         this.imagesCount = imagesCount;
         this.mainImageId = mainImageId;
         this.slideByCount = slideByCount;
+        this.cssPromise.then(() => this.createSlider());
     }
 
     loadCssFile() {
@@ -123,32 +118,9 @@ class ImageSlider {
         return slider;
     }
 
-    /*loadImages(imageArray = []) {
-        const that = this;
-        const intervalId = setInterval(function () {
-            if (that.createSliderChecker === true) {
-                for (let i = 0; i < imageArray.length + (that.slideByCount * 2); i++) {
-                    that.slidesImages = document.createElement("div");
-                    that.slidesImages.classList.add("slides-images");
-
-                    const images = document.createElement("img");
-                    images.src = imageArray[i % imageArray.length];
-
-                    that.slidesImages.append(images);
-
-                    that.slidesWrapper.append(that.slidesImages);
-                }
-                that.markMainImage();
-                that.transformImages();
-                that.resizeContainer();
-                clearInterval(intervalId);
-            }
-        }, 100);
-    }*/
-
     loadImages(imageArray = []) {
         const that = this;
-        this.loadCssFile().then(() => {
+        this.cssPromise.then(() => {
             for (let i = 0; i < imageArray.length + (this.slideByCount * 2); i++) {
                 const slideImage = document.createElement("div");
                 slideImage.classList.add("slides-images");
@@ -228,5 +200,3 @@ class ImageSlider {
         }
     }
 }
-
-// контейнер в котором лежат картинки должен иметь размер = distanceX * imagesCount
