@@ -3,31 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>ImageSlider</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
 
-<script src="lib/ImageSlider.js"></script>
+<script src="lib/ImageSlider.js" type="module" defer onload="initSlider()"></script>
 <script>
+    function initSlider() {
+        let slider = new ImageSlider(document.body, 3, 1, 1);
+        let slider2 = new ImageSlider(document.body, 3, 1, 1);
+        let slider3 = new ImageSlider(document.body, 3, 1, 1);
 
-    let slider = new ImageSlider(document.body, 3, 1, 1);
-    let slider2 = new ImageSlider(document.body, 3, 1, 1);
-    let slider3 = new ImageSlider(document.body, 3, 1, 1);
+        let images = [
+            "images/1.jfif",
+            "images/2.jfif",
+            "images/3.jfif",
+            "images/4.jfif",
+            "images/5.jfif",
+            "images/6.jfif",
+            "images/1694355515179744073.jpg",
+            "images/big.jpg",
+        ];
 
-    let images = [
-        "images/1.jfif",
-        "images/2.jfif",
-        "images/3.jfif",
-        "images/4.jfif",
-        "images/5.jfif",
-        "images/6.jfif",
-        "images/1694355515179744073.jpg",
-        "images/big.jpg",
-    ];
-
-    slider.loadImages(images);
-    slider2.loadImages(images);
-    slider3.loadImages(images);
-
+        slider.loadImages(images);
+        slider2.loadImages(images);
+        slider3.loadImages(images);
+    }
 </script>
 </body>
 </html>
